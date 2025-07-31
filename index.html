@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>電話帳（追加・削除可）</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+      background-color: #f0f8ff;
+    }
+    h1 {
+      margin-bottom: 1em;
+    }
+    #add-form input {
+      padding: 0.5em;
+      margin: 0.5em;
+      font-size: 1em;
+    }
+    #add-form button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .phone-list {
+      margin-top: 2em;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .phone-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #3498db;
+      border-radius: 8px;
+      padding: 0.8em 1em;
+      color: white;
+      font-size: 1.2em;
+    }
+    .phone-item a {
+      color: white;
+      text-decoration: none;
+      flex-grow: 1;
+      text-align: left;
+    }
+    .delete-btn {
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 0.3em 0.8em;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-left: 1em;
+    }
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <h1>電話帳（追加・削除可）</h1>
+  <div id="add-form">
+    <input type="text" id="nameInput" placeholder="名前" />
+    <input type="tel" id="phoneInput" placeholder="電話番号（例: 09012345678）" />
+    <button onclick="addEntry()">追加</button>
+  </div>
+  <div class="phone-list" id="phoneList"></div>
+
+  <script>
+    function addEntry() {
+      const name = document.getElementById('nameInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name || !phone) {
+        alert('名前と電話番号を入力してください');
+        return;
+      }
+
+      const phoneList = document.getElementById('phoneList');
+
+      // 電話項目の作成
+      const item = document.createElement('div');
+      item.className = 'phone-item';
+
+      // 電話かけリンク
+      const link = document.createElement('a');
+      link.href = 'tel:' + phone;
+      link.textContent = `${name} （${phone}）`;
+
+      // 削除ボタン
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.textContent = '削除';
+      delBtn.onclick = () => {
+        if (confirm(`「${name}」を削除しますか？`)) {
+          phoneList.removeChild(item);
+        }
+      };
+
+      item.appendChild(link);
+      item.appendChild(delBtn);
+      phoneList.appendChild(item);
+
+      // 入力クリア
+      document.getElementById('nameInput').value = '';
+      document.getElementById('phoneInput').value = '';
+    }
+  </script>
+</body>
+</html>
