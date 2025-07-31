@@ -1,76 +1,117 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title>電話帳（追加・削除可）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>電話帳（スマホ対応）</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
       text-align: center;
-      padding: 2em;
+      padding: 1.5em;
       background-color: #f0f8ff;
+      margin: 0;
     }
     h1 {
       margin-bottom: 1em;
+      font-size: 1.8em;
+    }
+    #add-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8em;
+      margin-bottom: 1.5em;
     }
     #add-form input {
-      padding: 0.5em;
-      margin: 0.5em;
-      font-size: 1em;
+      flex: 1 1 150px;
+      min-width: 120px;
+      padding: 0.7em 1em;
+      font-size: 1.1em;
+      border: 2px solid #3498db;
+      border-radius: 8px;
+      outline-offset: 2px;
     }
     #add-form button {
-      padding: 0.5em 1em;
-      font-size: 1em;
+      flex: 0 0 100px;
       background-color: #4caf50;
-      color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1em;
       cursor: pointer;
+      padding: 0.7em 0;
+      transition: background-color 0.2s;
+    }
+    #add-form button:hover {
+      background-color: #43a047;
     }
     .phone-list {
-      margin-top: 2em;
+      max-width: 480px;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
       gap: 1em;
-      max-width: 400px;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 0 0.5em;
     }
     .phone-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background-color: #3498db;
-      border-radius: 8px;
-      padding: 0.8em 1em;
+      border-radius: 10px;
+      padding: 1em 1.2em;
       color: white;
-      font-size: 1.2em;
+      font-size: 1.3em;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+      user-select: none;
     }
     .phone-item a {
       color: white;
       text-decoration: none;
       flex-grow: 1;
       text-align: left;
+      word-break: break-word;
     }
     .delete-btn {
       background-color: #e74c3c;
       border: none;
       color: white;
-      padding: 0.3em 0.8em;
-      font-size: 1em;
-      border-radius: 5px;
+      padding: 0.4em 1em;
+      font-size: 1.1em;
+      border-radius: 8px;
       cursor: pointer;
       margin-left: 1em;
+      flex-shrink: 0;
+      user-select: none;
+      transition: background-color 0.2s;
     }
     .delete-btn:hover {
       background-color: #c0392b;
     }
+    @media (max-width: 400px) {
+      #add-form input {
+        flex-basis: 100%;
+      }
+      #add-form button {
+        flex-basis: 100%;
+      }
+      .phone-item {
+        font-size: 1.1em;
+        padding: 0.8em 1em;
+      }
+      .delete-btn {
+        padding: 0.3em 0.8em;
+        font-size: 1em;
+        margin-left: 0.6em;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>電話帳（追加・削除可）</h1>
+  <h1>電話帳（スマホ対応）</h1>
   <div id="add-form">
-    <input type="text" id="nameInput" placeholder="名前" />
-    <input type="tel" id="phoneInput" placeholder="電話番号（例: 09012345678）" />
+    <input type="text" id="nameInput" placeholder="名前" autocomplete="off" />
+    <input type="tel" id="phoneInput" placeholder="電話番号（例: 09012345678）" autocomplete="off" />
     <button onclick="addEntry()">追加</button>
   </div>
   <div class="phone-list" id="phoneList"></div>
@@ -83,19 +124,15 @@
         alert('名前と電話番号を入力してください');
         return;
       }
-
       const phoneList = document.getElementById('phoneList');
 
-      // 電話項目の作成
       const item = document.createElement('div');
       item.className = 'phone-item';
 
-      // 電話かけリンク
       const link = document.createElement('a');
       link.href = 'tel:' + phone;
       link.textContent = `${name} （${phone}）`;
 
-      // 削除ボタン
       const delBtn = document.createElement('button');
       delBtn.className = 'delete-btn';
       delBtn.textContent = '削除';
@@ -112,6 +149,7 @@
       // 入力クリア
       document.getElementById('nameInput').value = '';
       document.getElementById('phoneInput').value = '';
+      document.getElementById('nameInput').focus();
     }
   </script>
 </body>
